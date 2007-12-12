@@ -2,7 +2,7 @@ Summary: 	PBSWeb
 Url:		http://www.cs.ualberta.ca/~pinchak/PBSWeb/
 Name: 		pbsweb-butf
 Version:	0.9
-Release:	6mdk
+Release:	%mkrel 6
 License:	GPL 
 Group:		Monitoring 
 Provides: 	pbsweb-butf
