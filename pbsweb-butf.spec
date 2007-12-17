@@ -11,7 +11,6 @@ Source1:	setup_postgres_pbs
 Patch0:		pbsweb-createdb.psql.patch.bz2
 Patch1:		pbsweb-dbutils.php.patch.bz2
 BuildArch:      noarch
-buildroot:      %{_tmppath}/%{name}-%{version}
 Prefix:         %{_prefix}
 Packager:       Antoine Ginies <aginies@mandrakesoft.com>
 Requires:	php-common >= 4.1, php >= 4.1, php-xml >= 4.1, mod_php >= 4.1 
