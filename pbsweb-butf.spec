@@ -12,7 +12,6 @@ Patch0:		pbsweb-createdb.psql.patch.bz2
 Patch1:		pbsweb-dbutils.php.patch.bz2
 BuildArch:      noarch
 Prefix:         %{_prefix}
-Packager:       Antoine Ginies <aginies@mandrakesoft.com>
 Requires:	php-common >= 4.1, php >= 4.1, php-xml >= 4.1, mod_php >= 4.1 
 Requires:	apache-conf >= 1.3, apache-common >= 1.3, apache-modules >= 1.3 
 Requires:	postgresql , postgresql-server, php-pgsql
