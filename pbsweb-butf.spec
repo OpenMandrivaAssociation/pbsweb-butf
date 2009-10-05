@@ -1,21 +1,21 @@
-Summary: 	PBSWeb
-Url:		http://www.cs.ualberta.ca/~pinchak/PBSWeb/
 Name: 		pbsweb-butf
 Version:	0.9
-Release:	%mkrel 9
+Release:	%mkrel 10
+Summary: 	PBSWeb
 License:	GPL 
 Group:		Monitoring 
 Provides: 	pbsweb-butf
+Url:		http://www.cs.ualberta.ca/~pinchak/PBSWeb/
 Source:		%{name}-%{version}.tar.bz2
 Source1:	setup_postgres_pbs
 Patch0:		pbsweb-createdb.psql.patch.bz2
 Patch1:		pbsweb-dbutils.php.patch.bz2
+Requires:	mod_php
+Requires:	php-xml
+Requires:	php-pgsql
+Requires:	postgresql-server
 BuildArch:      noarch
 buildroot:      %{_tmppath}/%{name}-%{version}
-Prefix:         %{_prefix}
-Requires:	php-common >= 4.1, php >= 4.1, php-xml >= 4.1, mod_php >= 4.1 
-Requires:	apache-conf >= 1.3, apache-common >= 1.3, apache-modules >= 1.3 
-Requires:	postgresql , postgresql-server, php-pgsql
 
 %description
 PBSWeb was designed as an aid to the Portable Batch System (PBS) job 
