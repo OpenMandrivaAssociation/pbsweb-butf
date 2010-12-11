@@ -1,6 +1,6 @@
 Name: 		pbsweb-butf
 Version:	0.9
-Release:	%mkrel 10
+Release:	%mkrel 11
 Summary: 	PBSWeb
 License:	GPL 
 Group:		Monitoring 
