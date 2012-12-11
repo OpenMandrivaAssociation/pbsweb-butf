@@ -1,0 +1,153 @@
+#!/bin/sh
+# simple script to setup pbsweb database
+# 
+# chkpackage : check needeed package
+# createpbs : create the pbsweb database
+# showdb : show users and hosts in database
+# addnewuser : add a new user in database
+
+# variable
+postgres_home=/usr/share/pgsq
+sbin=/usr/bin
+verpbsweb=0.9
+
+#
+# check necessary package
+test_presence_package() {
+testrpm=`rpm -qa ${1}`
+if [ -z ${testrpm} ];  then  
+	echo "installing ${1}"
+	urpmi ${1} 
+fi
+}
+
+#
+# su postgres to manipulate database:
+bepostgres_user() {
+supostgres="/bin/su -m postgres -c"
+}
+
+#
+# create the database
+createdbpbsweb() {
+service postgresql start
+bepostgres_user
+# Fire up PostgreSQL:
+echo "fire UP PostgreSQL"
+${supostgres} ${sbin}/postmaster -i -D ${postgres_home}/data >log_file 2>&1 &
+sleep 5
+
+# check database exist
+# ${supostgres} ${sbin}/psql -d pbsweb_release -c '\l' | grep pbsweb_release
+
+# create the pbsweb_release database:
+echo "creating the pbsweb_release database"
+${supostgres} "${sbin}/createdb pbsweb_release"
+# enter value in pbsweb_release:
+echo "Populate pbsweb_release"
+${supostgres} "${sbin}/psql -d pbsweb_release -f /usr/share/doc/pbsweb-butf-${verpbsweb}/createdb.psql"
+}
+
+#
+# see user and host in database
+see_pbsweb_db() {
+bepostgres_user
+echo ""
+echo "User in database:"
+echo "-----------------"
+${supostgres} "${sbin}/psql -d pbsweb_release -c 'select * from users; ' "
+echo ""
+echo "PBS server in database:"
+echo "-----------------------"
+${supostgres} "${sbin}/psql -d pbsweb_release -c 'select * from hosts; ' "
+}
+
+testzero() {
+while [ -z ${value} ]; do
+	read value
+done
+}
+
+#
+# add new user in database
+addnewuser() {
+bepostgres_user
+echo ""
+echo "Collect data to create new user:"
+echo "--------------------------------"
+echo "enter name:"
+testzero ; name=${value} ; value=""
+echo "Enter password:"
+testzero ; password=${value} ; value=""
+echo "Enter email:"
+testzero ; email=${value} 
+
+command="insert into \"users\" ( name, password, email, rights, deleted) values ('${name}', '${password}', '${email}', '0', '0'); "
+
+echo ""
+echo "|-----------------------|"
+echo "| to add a new user do: |"
+echo "|-----------------------|"
+echo ""
+echo "1) paste :"
+echo "----------"
+echo ${command}
+echo "it should return INSERT a_number 1"
+echo ""
+echo "2) do a :"
+echo "---------"
+echo "\"\q\" to quit postgres"
+echo ""
+${supostgres} "psql -d pbsweb_release"
+}
+
+addnewuser2() {
+test_name=`cat /etc/passwd | grep ${name}`
+if [ -z ${test_name} ]; then
+        echo "user doesnt exist !"
+	echo "-------------------"
+	echo "create with useradd "
+	home_dir=""
+fi
+		
+if [ -z "${home_dir}" ]; then
+home_dir=`cat /etc/passwd | grep ${name} | awk -F":" '{print $6}'`
+fi
+
+echo ""
+echo "create a \"pbsweb\" directory in your home user:"
+echo "------------------------------------------------"
+echo "su - ${name}"
+echo "mkdir pbsweb"
+echo ""
+echo "copy postgres publickey to your home dir:"
+echo "-----------------------------------------"
+echo "cp /var/lib/pgsql/.ssh/id_dsa.pub /home_user_dir/.ssh/authorized_keys"
+}
+
+case $1 in 
+	chkpackage)
+	test_presence_package apache
+	test_presence_package libpgsql2
+	test_presence_package php-pgsql
+	test_presence_package postgresql-server
+	test_presence_package postgresql
+	test_presence_package mod_ssl
+	test_presence_package mod_php
+	test_presence_package php
+	echo "All needed package are installed"
+	;;
+	createpbs)
+	createdbpbsweb
+	;;
+	showdb)
+	see_pbsweb_db
+	;;
+	addnewuser)
+	addnewuser
+	addnewuser2
+	;;
+	*)
+	echo "usage $0 {chkpackage|createpbs|showdb|addnewuser}"
+	;;
+esac

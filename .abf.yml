@@ -1,3 +1,4 @@
 sources:
-  "pbsweb-butf-0.9.tar.bz2:"	6f33fdddb585f9871a1ce81e317b7f4147858536
-  "setup_postgres_pbs:"	c423ebd300059ba4a0797a38610379e3037dd47f
+  "pbsweb-butf-0.9.tar.bz2": 6f33fdddb585f9871a1ce81e317b7f4147858536
+  "pbsweb-createdb.psql.patch.bz2": 72a9bdf2457fe93edb9b933a38e58ff55a198347
+  "pbsweb-dbutils.php.patch.bz2": a8fa96b03d56496cbeec8ddb79268527910f7a7c

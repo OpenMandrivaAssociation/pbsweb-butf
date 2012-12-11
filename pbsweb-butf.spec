@@ -1,6 +1,6 @@
 Name: 		pbsweb-butf
 Version:	0.9
-Release:	%mkrel 11
+Release:	11
 Summary: 	PBSWeb
 License:	GPL 
 Group:		Monitoring 
@@ -15,7 +15,6 @@ Requires:	php-xml
 Requires:	php-pgsql
 Requires:	postgresql-server
 BuildArch:      noarch
-buildroot:      %{_tmppath}/%{name}-%{version}
 
 %description
 PBSWeb was designed as an aid to the Portable Batch System (PBS) job 
@@ -32,13 +31,12 @@ use of HTML forms.
 %setup
 %patch0 -p0 
 %patch1 -p0 
+cp %{SOURCE1} .
 
 %build
-rm -rf %{buildroot}
-cp %{SOURCE1} ~/rpm/BUILD/%{name}-%{version}/setup_postgres_pbs
-chmod 644 ~/rpm/BUILD/%{name}-%{version}/Papers/*
-chmod 644 ~/rpm/BUILD/%{name}-%{version}/README.PBSWeb 
-chmod 644 ~/rpm/BUILD/%{name}-%{version}/createdb.psql
+chmod 644 Papers/*
+chmod 644 README.PBSWeb 
+chmod 644 createdb.psql
 
 %install
 mkdir -p %{buildroot}/var/www/html/pbsweb
@@ -75,3 +73,49 @@ rm -f ${apache_conf}/commonhttpd.conf.pbsweb1
 %clean
 rm -rf %{buildroot}
 
+
+
+%changelog
+* Mon Oct 05 2009 Guillaume Rousse <guillomovitch@mandriva.org> 0.9-10mdv2010.0
++ Revision: 454254
+- fix dependencies
+
+* Fri Sep 04 2009 Thierry Vignaud <tvignaud@mandriva.com> 0.9-9mdv2010.0
++ Revision: 430245
+- rebuild
+
+* Wed Jul 30 2008 Thierry Vignaud <tvignaud@mandriva.com> 0.9-8mdv2009.0
++ Revision: 255133
+- rebuild
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Tue Dec 18 2007 Thierry Vignaud <tvignaud@mandriva.com> 0.9-6mdv2008.1
++ Revision: 132771
+- kill invalid packager tag
+- kill re-definition of %%buildroot on Pixel's request
+- use %%mkrel
+- import pbsweb-butf
+
+
+* Mon May 17 2004 Antoine Ginies <aginies@n2.mandrakesoft.com> 0.9-6mdk
+- fix permissions (srpm)
+
+* Tue Mar 12 2003 Lenny Cartier <lenny@mandrakesoft.com> 0.9-5mdk
+- fix missing files
+- fix requires
+
+* Wed Jun 5 2002 Antoine Ginies <aginies@mandrakesoft.com> 0.9-4mdk
+- fix problem with setup_postgres_pbs
+- postgres user now launch apache server
+
+* Tue Jun 4 2002 Antoine Ginies <aginies@mandrakesoft.com> 0.9-3mdk
+- add post section in spec file
+- adjust error in setup_postgres_pbs script
+
+* Tue Jun 4 2002 Antoine Ginies <aginies@mandrakesoft.com> 0.9-2mdk
+- patch createdb.psql to fit correct user 
+
+* Tue Jun 4 2002 Antoine Ginies <aginies@mandrakesoft.com> 0.9-1mdk
+- First release for Mandrakesoft
