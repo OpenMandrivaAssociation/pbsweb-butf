@@ -5,7 +5,7 @@ Summary: 	PBSWeb
 License:	GPL 
 Group:		Monitoring 
 Provides: 	pbsweb-butf
-Url:		http://www.cs.ualberta.ca/~pinchak/PBSWeb/
+Url:		https://www.cs.ualberta.ca/~pinchak/PBSWeb/
 Source:		%{name}-%{version}.tar.bz2
 Source1:	setup_postgres_pbs
 Patch0:		pbsweb-createdb.psql.patch.bz2
